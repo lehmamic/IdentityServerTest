@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4;
+﻿using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,8 +14,19 @@ namespace Diskordia.IdentityServer
     {
       services.AddMvc();
 
+      services.AddCors(options=>
+      {
+        // this defines a CORS policy called "default"
+        options.AddPolicy("default", policy =>
+        {
+          policy.WithOrigins("http://localhost:4201")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+      });
+
       // configure identity server with in-memory stores, keys, clients and scopes
-      services.AddIdentityServer()
+      services.AddIdentityServer(options => options.UserInteraction.LoginUrl = "http://localhost:4201/login")
         .AddTemporarySigningCredential()
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddInMemoryApiResources(Config.GetApiResources())
@@ -33,6 +39,8 @@ namespace Diskordia.IdentityServer
     {
       loggerFactory.AddConsole(LogLevel.Debug);
       app.UseDeveloperExceptionPage();
+
+      app.UseCors("default");
 
       app.UseIdentityServer();
 

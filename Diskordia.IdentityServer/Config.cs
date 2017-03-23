@@ -94,7 +94,7 @@ namespace Diskordia.IdentityServer
 
           RedirectUris = { "http://localhost:4200/callback" },
           PostLogoutRedirectUris = { "http://localhost:4200/index.html" },
-          AllowedCorsOrigins = { "http://localhost:4200" },
+          AllowedCorsOrigins = { "http://localhost:4200", "http://localhost:4201" },
 
           AllowedScopes =
           {
