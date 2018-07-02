@@ -1,0 +1,7 @@
+returnUrl=http%3A%2F%2Flocalhost%3A5000%2Fconnect%2Fauthorize%2Flogin%3Fclient_id%3Djs%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A4200%252Fcallback%26response_type%3Did_token%2520token%26scope%3Dopenid%2520profile%2520api1%26state%3D76e35db6a0c54944b76e852e0efa364a%26nonce%3D8666cc6daf9a4495b1d40935667a5ab5
+http://localhost:5000/connect/authorize/login?client_id=js&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fcallback&response_type=id_token%20token&scope=openid%20profile%20api1&state=76e35db6a0c54944b76e852e0efa364a&nonce=8666cc6daf9a4495b1d40935667a5ab5
+
+/connect/authorize/login?client_id=js&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fcallback&response_type=id_token%20token&scope=openid%20profile%20api1&state=76e35db6a0c54944b76e852e0efa364a&nonce=8666cc6daf9a4495b1d40935667a5ab5
+
+/connect/authorize/login?client_id=js&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fcallback&response_type=id_token%20token&scope=openid%20profile%20api1&state=6b88043924734809b1acca1a31e4fb66&nonce=46067d0cff13470388bdea4efe022518
+/connect/authorize/login?client_id=js&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fcallback&response_type=id_token%20token&scope=openid%20profile%20api1&state=6b88043924734809b1acca1a31e4fb66&nonce=46067d0cff13470388bdea4efe022518

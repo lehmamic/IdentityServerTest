@@ -4,4 +4,6 @@ export interface LocalLogin {
   password: string;
 
   rememberLogin: boolean;
+
+  returnUrl: string;
 }

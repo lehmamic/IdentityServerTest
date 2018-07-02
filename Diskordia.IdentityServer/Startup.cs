@@ -19,7 +19,8 @@ namespace Diskordia.IdentityServer
         // this defines a CORS policy called "default"
         options.AddPolicy("default", policy =>
         {
-          policy.WithOrigins("http://localhost:4201")
+          // client & identity server ports => require for the redicrect statement in a rest call (e.g. post login).
+          policy.WithOrigins("http://localhost:4201", "http://localhost:5000")
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
@@ -27,6 +28,7 @@ namespace Diskordia.IdentityServer
 
       // configure identity server with in-memory stores, keys, clients and scopes
       services.AddIdentityServer(options => options.UserInteraction.LoginUrl = "http://localhost:4201/login")
+      //  services.AddIdentityServer()
         .AddTemporarySigningCredential()
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddInMemoryApiResources(Config.GetApiResources())

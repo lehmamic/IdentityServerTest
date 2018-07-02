@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Diskordia.IdentityServer.Controllers;
 using Diskordia.IdentityServer.Models.Account;
@@ -32,21 +31,21 @@ namespace Diskordia.IdentityServer.Api
     }
 
     [HttpGet("login")]
-    public async Task<IActionResult> Login([FromQuery]string returnUrl)
+    public async Task<IActionResult> Login(string returnUrl)
     {
       var vm = await this.account.BuildLoginViewModelAsync(returnUrl);
 
 //      if (vm.IsExternalLoginOnly)
 //      {
-//        // only one option for logging in
-//        return await this.ExternalLogin(vm.ExternalProviders.First().AuthenticationScheme, returnUrl);
+//        // on return await this.ExternalLogin(vm.ExternalProviders.First().AuthenticationScheme, returnUrl);ly one option for logging in
+//
 //      }
 
       return this.Ok(vm);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginInputModel model)
+    public async Task<IActionResult> Login([FromBody]LoginInputModel model)
     {
       if (this.ModelState.IsValid)
       {
@@ -71,21 +70,29 @@ namespace Diskordia.IdentityServer.Api
           await this.HttpContext.Authentication.SignInAsync(user.SubjectId, user.Username, props);
 
           // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
-          if (this.interaction.IsValidReturnUrl(model.ReturnUrl))
+          if (this.interaction.IsValidReturnUrl(model.ReturnUrl.Replace("http://localhost:5000", "")))
           {
-            return this.Redirect(model.ReturnUrl);
+            // Preflight redicrect with cors (from NG) is not allowed
+            // return this.Redirect(model.ReturnUrl);
+
+            this.Response.Headers.Add("Location", model.ReturnUrl);
+            return this.Ok(new { ReturnUrl = model.ReturnUrl });
           }
 
-          return this.Redirect("~/");
+          // Preflight redicrect with cors (from NG) is not allowed
+          // return this.Redirect("~/");
+
+          this.Response.Headers.Add("Location", "~/");
+          return this.Ok(new { ReturnUrl = "~/" });
         }
 
         this.ModelState.AddModelError("", AccountOptions.InvalidCredentialsErrorMessage);
       }
 
       // something went wrong, show form with error
-      var vm = await this.account.BuildLoginViewModelAsync(model);
+      //var vm = await this.account.BuildLoginViewModelAsync(model);
 
-      return this.View(vm);
+      return this.BadRequest(this.ModelState);
     }
   }
 }
